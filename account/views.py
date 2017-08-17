@@ -10,9 +10,11 @@ from django.core.mail import EmailMultiAlternatives
 from account.forms import UploadPURForm
 from account.misc import handle_uploaded_file,get_bhama
 from django.contrib.auth.models import User
+from reportlab.pdfgen import canvas
 from PIL import Image
 from account.models import operations,profile
 import hashlib,json
+from easy_pdf.views import PDFTemplateView
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 import base64
@@ -57,53 +59,73 @@ def dashboard(request):
 		return render(request,'<Show Dashboard>')
 	else:
 		logout(request)
-		return HttpResponseRedirect('<Show Login Page>')
+		return HttpResponseRedirect('accout')
 
 
 def UploadPURForm(request):
 	if request.user.is_authenticated:
 		if request.method == 'POST':
-			form = UploadPURForm(request.POST)
-			if form.is_valid():
-				bhamasa = form.cleaned_data['bhamasa']
-				#Now Save the stuff to Operations on doctor username
-				operation_obj = operations()
-				hash_object = hashlib.sha1(form.cleaned_data['bhamasa'])
-				pur_temp = hash_object.hexdigest()
-				operation_obj.pur = pur_temp
-				operation_obj.username = request.user.id
-				operation_obj.bhamasahof = bhamasa
-				operation_obj.filename = file_path
-				bhamasa_details = get_bhama(bhamasa)
-				operation_obj.aadharhof = bhamasa_details['hof_aadhar']
-				operation_obj.mobile = form.cleaned_data['mobile']
-				operation_obj.save(commit=True)
-				return render(request,'<success_url for created PUR>',bhamasa_details)
-			form = UploadPURForm()
-			return render(request, 'account/purgenerator.html', {'form': form})
+			bhamasa = request.POST['bhamasa']
+			#Now Save the stuff to Operations on doctor username
+			operation_obj = operations()
+			hash_object = hashlib.sha1(bhamasa.encode('utf-8'))
+			pur_temp = hash_object.hexdigest()
+			try:
+				temp_obj = profile.objects.get(username='sanu')
+				operation_obj.hospital = temp_obj.hospital
+				operation_obj.doctor = temp_obj.first_name + ' ' + temp_obj.last_name
+			except(ValueError,ObjectDoesNotExist):
+				return render(request,'account/purgen.html')
+			operation_obj.pur = pur_temp
+			operation_obj.username = request.user
+			operation_obj.bhamasahof = bhamasa
+			bhamasa_details = get_bhama(bhamasa)
+			operation_obj.aadharhof = bhamasa_details['hof_aadhar']
+			operation_obj.save()
+			bhamasa_details['pur'] = pur_temp;
+			return render(request,'account/purgendone.html',{'bhamasa_details' : bhamasa_details})
 		else:
-			return render(request,'account/purgenerator.html')
+			return render(request,'account/purgen.html')
 	else:
 		return render(request,'account/login.html')
-				
+
+def test(request):
+	return render(request,'account/purcert.html')
+
+class HelloPDFView(PDFTemplateView):
+    template_name = 'account/purcert.html'		
+
+def cert(request,pur,name):
+	request.session['pur'] = pur
+	request.session['name'] = name
+	return HelloPDFView.as_view()(request)
+
 
 def createaccount(request):
 	if(authentic(request)):
 		if(request.method == 'POST'):
 			#Make the user with the details
-			profile = profile(request.POST)
-			if profile.is_valid():
-				user = User.objects.create_user(profile.cleaned_data['username'], profile.cleaned_data['email'], request.POST['password'])
-				user.first_name = profile.cleaned_data['first_name']
-				user.last_name = profile.cleaned_data['last_name']
-				user.save()
-			else:
-				profile = profile()
+			username = request.POST['username']
+			email = request.POST['email']
+			password = request.POST['email']
+
+			user = User.objects.create_user(username,email, password)
+			obj = profile()
+			obj.first_name = user.first_name = request.POST['f_name']
+			obj.last_name = user.last_name = request.POST['l_name']
+			obj.username = username
+			obj.aadharid = int(request.POST['aadhaar'])
+			obj.hospital = request.POST['hospital']
+			obj.designation = request.POST['designation']
+			obj.experience = request.POST['experience']
+			obj.nationality = 'Indian'
+			obj.save()
+			user.save()
+		
 		else:
-			return render(request,'<Create Account Page>',{'profile' : profile})
+			return render(request,'account/signup.html')
 	else:
-		profile = profile()
-		return render(request,'<Create Account Page>',{'profile' : profile})
+		return render(request,'account/signup.html')
 
 def checkpur(request):
 	if(authentic(request)):
@@ -141,7 +163,6 @@ def androidapi(request,pur_id):
 		aadharhof = temp_obj.aadharhof
 		details = get_bhama(bhamasahof)
 		details['date'] = str(temp_obj.date)
-		details['mobile'] = temp_obj.mobile
 		details['hospital'] = temp_obj.hospital
 		obj = profile.objects.get(username=temp_obj.username)
 		details['doctor'] = obj.first_name+' '+obj.last_name
@@ -159,3 +180,10 @@ def androidapi(request,pur_id):
 def false(request):
 	return HttpResponse("Hello")
 
+def dashboard(request):
+	if request.user.is_authenticated:
+		obj = profile.objects.get(username = request.user)
+		return render(request,'account/profile.html',{'profile':obj})
+	else:
+		return render(request,'account/login.html')
+		

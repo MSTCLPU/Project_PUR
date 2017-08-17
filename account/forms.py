@@ -6,7 +6,7 @@ from django import forms
 from django.core.validators import MinLengthValidator
 
 class UploadPURForm(forms.Form):
-	bhamasa = forms.CharField(max_length=20,validators=[MinLengthValidator(11)])
+	bhamasa = forms.CharField(max_length=20,validators=[MinLengthValidator(4)])
 	def extension(self):
 		name, extension = os.path.splitext(self.file.name)
 		return extension

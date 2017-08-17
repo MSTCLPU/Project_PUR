@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Doctor Profile</title>
+  {%load static%}
+	    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="{%static 'account/style2.css' %}">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+ <!-- Compiled and minified JavaScript -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{%static 'account/material.css' %}">  
+<link rel="stylesheet" type="text/css" href="{%static 'account/bootstrap.css' %}">
+<script src="https://use.fontawesome.com/ec9198a6e3.js"></script>
+<script src="{%static 'account/purchecker.js' %}"></script>
+</head>
+<body>
+<div class="fluid-container" style="overflow-x: hidden;">
+<div class="row">
+<img class="mdl-shadow--6dp" src="{% static 'account/cover.jpeg'%}" width="100%" height="200px" class="cover-image">
+  <div class="col-md-12 cover">
+    <img src="{%static 'account/doctor.png'%}" width="180px" height="180px">
+    <h2>{{profile.name}}</h2>
+    <h3>{{profile.designation}}</h3>
+    <h5>Rajasthan Central Hospital, Jaipur</h5>
+  </div>
+</div>
+
+<div class="information">
+<div class="row">
+  <div class="col-sm-4 col-md-4 vertical-line">
+  <h3>Contact Detail</h3>
+       <p><i class="fa fa-envelope fa-2x" aria-hidden="true"></i>  <b>{{profile.email}}</b></p>
+      <p><i class="fa fa-home fa-2x" aria-hidden="true"></i>  <b>Jaipur, Rajasthan</b></p>
+  </div>
+
+  <div class="col-sm-4 col-md-4 vertical-line">
+  <h3>About</h3>
+  <p>Designation: <b>{{profile.designation}}</b></p>
+	<p>Hospital: <b>{{profile.hospital}}</b></p>
+  <p>Nationality: <b>{{profile.nationality}}</b></p>
+  </div>
+
+    <div class="col-sm-4 col-md-4">
+  <h3>Information</h3>
+  <p>DOB: <b>12-Jan-1990</b></p>
+  <p>Experience: <b>1{{profile.experience}} Years</b></p>
+  </div>
+</div>
+</div>
+</body>
+</html>

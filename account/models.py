@@ -12,18 +12,12 @@ class profile(models.Model):
 	username = models.CharField(max_length=30,blank=False,null=False,unique=True)
 	first_name = models.CharField(max_length=30,blank=False,null=False)
 	last_name = models.CharField(max_length=30,blank=False,null=False)
-	aadharid = models.CharField(max_length=50, blank=False, null=False, validators=[alphanumeric])
+	aadharid = models.IntegerField()
 	email = models.CharField(max_length=20,null=True,validators=[alphanumeric_email])
 	hospital = models.CharField(max_length=70,null=True,blank=True)
 	experience = models.IntegerField(blank=True,null=True)
 	designation = models.CharField(max_length=50,blank=True)
 	nationality = models.CharField(max_length=20,null=True)
-	GENDER = (
-	    (u'1', u'Male'),
-	    (u'2', u'Female'),
-	    (u'3', u'Others'),
-	)
-	gender = models.CharField(max_length=6,choices=GENDER,default=3)
 
 	def __str__(self):
 		return self.first_name+' '+self.last_name
@@ -51,11 +45,9 @@ class children(models.Model):
 
 class operations(models.Model):
 	alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
-	pur = models.CharField(max_length=14,blank=False,null=False,validators=[alphanumeric])
+	pur = models.CharField(max_length=200,blank=False,null=False,validators=[alphanumeric])
 	bhamasahof = models.CharField(max_length=50,null=True, validators=[alphanumeric])
-	filename = models.CharField(max_length=100,blank=False,null=True,validators=[alphanumeric]) 
 	username = models.CharField(max_length=30,null=True)
 	aadharhof = models.CharField(max_length=50, blank=False, null=False, validators=[alphanumeric])
-	mobile = models.IntegerField(12)
 	hospital = models.CharField(max_length=50,null=True,validators=[MinLengthValidator(10)])
 	date = models.DateField(default=timezone.now())

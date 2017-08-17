@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Signup / Registration form using Material Design - Demo by W3lessons</title>
+  <!-- CORE CSS-->
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+  <script src="https://use.fontawesome.com/ec9198a6e3.js"></script>
+
+<style type="text/css">
+html,
+body {
+    height: 100%;
+}
+html {
+    display: table;
+    margin: auto;
+}
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+.margin {
+  margin: 0 !important;
+}
+</style>
+  
+</head>
+
+<body class="blue">
+
+<form action="{% url 'createaccount' %}" method="post">
+  {% csrf_token %}
+  <div id="login-page" class="row" style="width: 500px;">
+    <div class="col s12 z-depth-6 card-panel">
+      <form class="login-form">
+        <div class="row">
+          <div class="input-field col s12 center">
+            
+            <h5 class="center login-form-text">Registration Form</h5>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-account-circle prefix"></i>
+            <input id="f_name" type="text" class="validate" placeholder="First Name" name="f_name">
+            <label for="f_name" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-account-circle prefix"></i>
+            <input id="l_name" type="text" class="validate" placeholder="Last Name" name="l_name">
+            <label for="l_name" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-social-person-add prefix"></i>
+            <input id="username" type="text" class="validate" placeholder="Username" name="username">
+            <label for="username" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-communication-email prefix"></i>
+            <input id="email" type="email" class="validate" placeholder="Email" name="email">
+            <label for="email" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-av-subtitles prefix"></i>
+            <input id="aadhaar" type="number" class="validate" placeholder="AADHAAR No." name="aadhaar">
+            <label for="aadhaar" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-communication-business prefix"></i>
+            <input id="hospital" type="text" class="validate" placeholder="Hospital" name="hospital">
+            <label for="hospital" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-perm-identity prefix"></i>
+            <input id="designation" type="text" class="validate" placeholder="Designation" name="designation">
+            <label for="designation" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-verified-user prefix"></i>
+            <input id="experience" type="text" class="validate" placeholder="Experience" name="experience">
+            <label for="experience" class="center-align"></label>
+          </div>
+        </div>
+        <div class="row margin">
+          <div class="input-field col s12">
+            <i class="mdi-action-lock-outline prefix"></i>
+            <input id="password" type="password" class="validate" placeholder="Password" name="password">
+            <label for="password"></label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <button type="submit" ="" class="btn waves-effect waves-light col s12">Register Now</button>
+          </div>
+          <div class="input-field col s12">
+            <p class="margin center medium-small sign-up">Already have an account? <a href="#">Login</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  </form>
+  </div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>

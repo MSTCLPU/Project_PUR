@@ -31,12 +31,12 @@
         <!-- card contetnt -->
         <h1 class="center-align" style="color: white"><i class="medium material-icons" style="padding-top: 10px;">account_circle</i> PUR Checker</h1>
         <div class="row center" style="align-content: center;">
-              <form class="col s12 center" method="post" action="{% url 'uploadpur' %}">
+              <form class="col s12 center" method="post" action="{% url 'checkpur' %}">
               {% csrf_token %}
                 <div class="row">
                   <div class="input-field col s6">
                     <br>
-                    <input id="pur" type="number" data-length="14" name="pur" style="font-size: 30px;  width: 1200px">
+                    <input id="pur" type="text" data-length="14" name="pur" style="font-size: 30px;  width: 1200px">
                     <label for="input_text" style="font-size: 30px; color: white; padding-bottom: 700px; margin-bottom: 70px">Enter PUR code</label>
                     <br>
                   </div>
