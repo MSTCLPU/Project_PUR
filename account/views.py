@@ -39,7 +39,7 @@ def logoutit(request):
 def loginit(request):
 	if request.method == 'GET':
 		if authentic(request):
-			return render(request, 'account/purchecker.html')
+			return render(request, 'account/profile.html')
 		else:
 			return render(request, 'account/login.html')
 	elif request.method == 'POST':
@@ -48,7 +48,7 @@ def loginit(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			login(request, user)
-			return render(request, 'account/purchecker.html')
+			return render(request, 'account/profile.html')
 		else:
 			return render(request, 'account/login.html')
 
@@ -56,10 +56,10 @@ def dashboard(request):
 	if request.user.is_authenticated:
 		#Do Other Stuff
 		#Authentication done
-		return render(request,'<Show Dashboard>')
+		return render(request,'account/profile.html')
 	else:
 		logout(request)
-		return HttpResponseRedirect('accout')
+		return HttpResponseRedirect('account/login.html')
 
 
 def UploadPURForm(request):
