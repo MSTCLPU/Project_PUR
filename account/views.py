@@ -15,12 +15,13 @@ from account.models import operations,profile
 import hashlib,json
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
-
+import base64
 def authentic(request):
 	if request.user.is_authenticated:
-		return true
+		return True
 	else:
-		return false
+		return False
+
 
 def json_response(something):
 	return HttpResponse(
@@ -33,19 +34,19 @@ def logoutit(request):
 	logout(request)
 	return render(request,'account/login.html')
 
-def login(request):
+def loginit(request):
 	if request.method == 'GET':
 		if authentic(request):
-			return render(request, '<Show Dashboard>')
+			return render(request, 'account/purchecker.html')
 		else:
 			return render(request, 'account/login.html')
 	elif request.method == 'POST':
 		username = request.POST['username']
-		password_id = request.POST['password']
-		user = authenticate(username=username, password=password_id)
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
 		if user is not None:
 			login(request, user)
-			return render(request, '<Show Dashboard>')
+			return render(request, 'account/purchecker.html')
 		else:
 			return render(request, 'account/login.html')
 
@@ -60,22 +61,11 @@ def dashboard(request):
 
 
 def UploadPURForm(request):
-	if authentic(request):
+	if request.user.is_authenticated:
 		if request.method == 'POST':
-			form = UploadPURForm(request.POST,request.FILES)
+			form = UploadPURForm(request.POST)
 			if form.is_valid():
-				hash_object = hashlib.md5(b''+form.cleaned_data['bhamasa'])
-				file_path = str(hash_object.hexdigest())
-				trial_image = Image.open(request.FILES['file'])
 				bhamasa = form.cleaned_data['bhamasa']
-				try:
-					trial_image.verify()
-				except:
-					form = UploadPURForm()
-					return render(request, '<UploadPUR Wrong Image>', {'form': form})
-
-				file_path = file_path+'.'+form.extension();
-				handle_uploaded_file(request.FILES['file'],file_path)
 				#Now Save the stuff to Operations on doctor username
 				operation_obj = operations()
 				hash_object = hashlib.sha1(form.cleaned_data['bhamasa'])
@@ -88,16 +78,14 @@ def UploadPURForm(request):
 				operation_obj.aadharhof = bhamasa_details['hof_aadhar']
 				operation_obj.mobile = form.cleaned_data['mobile']
 				operation_obj.save(commit=True)
-
 				return render(request,'<success_url for created PUR>',bhamasa_details)
-			
 			form = UploadPURForm()
-			return render(request, '<UploadPUR>', {'form': form})
+			return render(request, 'account/purgenerator.html', {'form': form})
 		else:
-			referer = self.request.META.get('HTTP_REFERER')
-			return render(request,referer)
+			return render(request,'account/purgenerator.html')
+	else:
+		return render(request,'account/login.html')
 				
-	return render(request, '<Show Login Page with Error>')
 
 def createaccount(request):
 	if(authentic(request)):
@@ -121,7 +109,7 @@ def checkpur(request):
 	if(authentic(request)):
 		if request.method == 'GET':
 			#Show PUR Details Check page
-			return render(request,'<Check PUR Page>')
+			return render(request,'account/purchecker.html')
 		elif request.method =='POST':
 			pur_temp = request.POST['pur']
 			try:
@@ -129,12 +117,14 @@ def checkpur(request):
 				bhamasahof = temp_obj.bhamasahof
 				aadharhof = temp_obj.aadharhof
 				details = get_bhama(bhamasahof)
-				return render(request,'<Show PUR Page>',{'details' : details, 'pur_details' : temp_obj})
+				details['bhamasahof'] = temp_obj.bhamasahof
+				details['aadharhof'] = temp_obj.aadharhof
+				return render(request,'account/purchecker.html',{'details': details})
 			except (ValueError, ObjectDoesNotExist):
 				error = True
-				return render(request,'<Show PUR Page with error',{'error' : error})
+				return render(request,'account/purchecker.html',{'error' : error})
 	else:
-		return render(request,'<Show Login Page')
+		return render(request,'account/login.html')
 
 def generateBC(request):
 	if(authentic(request)):

@@ -19,9 +19,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from account import views as accountview
 
+
 urlpatterns = [
 	url(r'^$',accountview.false),
-    url(r'^login/$',accountview.login),
-    url(r'^logout/$',accountview.logoutit),
-    url(r'^android/(?P<pur_id>[0-9A-Za-z]+)/$',accountview.androidapi),
+	url(r'^login/$',accountview.loginit,name='login'),
+	url(r'^logout/$',accountview.logoutit,name='logout'),
+	url(r'^purchecker/$',accountview.checkpur,name='uploadpur'),
+	url(r'^android/(?P<pur_id>[0-9A-Za-z]+)/$',accountview.androidapi),
 ]

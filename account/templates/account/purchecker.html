@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PUR Checker</title>
+    <!-- Compiled and minified CSS -->
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'account/style.css'%}">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+ <!-- Compiled and minified JavaScript -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <script src="{%static 'account/purchecker.js'%}">
+
+ </script>
+ <style>
+     #map {
+      height: 400px;
+      width: 100%;
+     }
+  </style>
+  </head>
+  <body>
+<!-- the google map api key: AIzaSyAN__CZ43WBYBhkvXJpIRJeDzuux8RRUq8 -->
+<br>
+<div class="row">
+      <div class="col s12 m12">
+        <div class="card-panel teal" style="color: white">
+        <!-- card contetnt -->
+        <h1 class="center-align" style="color: white"><i class="medium material-icons" style="padding-top: 10px;">account_circle</i> PUR Checker</h1>
+        <div class="row center" style="align-content: center;">
+              <form class="col s12 center" method="post" action="{% url 'uploadpur' %}">
+              {% csrf_token %}
+                <div class="row">
+                  <div class="input-field col s6">
+                    <br>
+                    <input id="pur" type="number" data-length="14" name="pur" style="font-size: 30px;  width: 1200px">
+                    <label for="input_text" style="font-size: 30px; color: white; padding-bottom: 700px; margin-bottom: 70px">Enter PUR code</label>
+                    <br>
+                  </div>
+                </div>
+        
+        <p class="center">
+          <button class="btn waves-effect waves-light" type="submit" id="goToMap" name="goToMap" onclick="goToMap()">   Submit
+              <i class="material-icons right">send</i>
+          </button>
+        </p>
+        </form>
+          </div>
+          
+          <script type="text/javascript">
+            function goToMap () {
+
+            }
+          </script>
+        </p>
+      </div>
+
+        <br>
+        <!-- Start Here -->
+        {% if details %}
+        <div class="row">
+          <div class="col s6 m6">
+              <div class="card horizontal">
+                <div class="card-image">
+                  <img src="data:image/png;base64, {{details.hof_picture}}" class="materialboxed" width="650">
+                </div>
+                <div class="card-stacked">
+                  <div class="card-content">
+                    <b>AADHAR ID: </b> {{ details.hof_aadhar }} <br>
+                    <b>Name: </b> {{ details.hof_name }} <br>
+                    <b>D.O.B: </b> {{ details.hof_dob }} <br>
+                    <b>Bhamashah Id: </b> {{ details.hof_bhamasa }} <br>
+                    <b>Gender: </b> {{ details.hof_gender }}
+                  </div>
+
+                  <div class="card-action">
+                    <a href="#">Mother Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col s6 m6">
+
+                <div class="card horizontal">
+                  <div class="card-image">
+                    <img src="https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg" class="materialboxed" width="650">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                      <b>AADHAR ID: </b> {{ details.spouse_aadhar }} <br>
+                      <b>Name: </b> {{ details.spouse_name }} <br>
+                      <b>D.O.B: </b> {{ details.spouse_dob }} <br>
+                      <b>Gender: </b> {{ details.spouse_gender }}
+                    </div>
+                    <div class="card-action">
+                      <a href="#">Father Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <div id="map">
+        	
+        </div>
+        {%endif%}
+        <!-- Stop Here -->
+        <br><br>
+
+      </div>
+    </div>
+
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcF_hIR091a48XtGBIVVd5fYzHAX8_1_A&callback=initMap">
+    </script>
+  </body>
+</html>
