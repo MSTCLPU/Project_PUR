@@ -31,4 +31,5 @@ urlpatterns = [
 	url(r'^android/(?P<pur_id>[0-9A-Za-z]+)/(?P<name>[0-9A-Za-z]+)$',accountview.androidapi),
 	url(r'^signup/$',accountview.createaccount,name='createaccount'),
 	url(r'^profile/$',accountview.dashboard,name='profile'),
+	url(r'^hospital/$',accountview.hospital,name='hospital'),
 ]

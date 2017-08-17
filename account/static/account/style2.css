@@ -181,13 +181,13 @@ Image credits: unsplash.com
   background-repeat: no-repeat;
 }
 .fade-carousel .slides .slide-1 {
-  background-image: url(../img/1.jpg); 
+  background-image: url('1.png'); 
 }
 .fade-carousel .slides .slide-2 {
-  background-image: url(../img/2.jpg);
+  background-image: url('2.jpeg');
 }
 .fade-carousel .slides .slide-3 {
-  background-image: url(../img/3.jpg);
+  background-image: url('3.jpeg');
 }
 
 

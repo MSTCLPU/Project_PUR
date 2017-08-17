@@ -186,4 +186,9 @@ def dashboard(request):
 		return render(request,'account/profile.html',{'profile':obj})
 	else:
 		return render(request,'account/login.html')
-		
+
+def hospital(request):
+	if request.user.is_authenticated:
+		return render(request,'account/hosp_profile.html')
+	else:
+		return render(request,'account/login.html')
