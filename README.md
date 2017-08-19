@@ -19,9 +19,9 @@ The PUR platform is also linked with the Bhamashah APIs that help us to get publ
 
 ## Contributors:
 
-1. Soumyajit Dutta , Django Backend Developer
-2. Biswarup Banerjee,  Material Design Front end developer
-3. Rowhit Swami, Bootstrap Front end developer
-4. Shriom Tripathi, Android developer.
+1. <a href="https://www.github.com/sanudatta11" target="_blank">Soumyajit Dutta</a>, Backend Developer
+2.  <a href="https://www.github.com/bisso1998" target="_blank">Biswarup Banerjee</a>, Front End Developer
+3. <a href="https://www.github.com/rowhitswami" target="_blank">Rohit Swami</a>, Front End Developer
+4. <a href="https://www.github.com/jay006" target="_blank">Shriom Tripathi</a>, Android Developer.
 
 The project has been build for the Rajasthan Hackathon 2.0 and we are thankful to the GoR for giving us this amazing opportunity.
